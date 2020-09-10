@@ -1,7 +1,7 @@
 from random import randint
 def QuickSelect(L, k):
 	pivot = L[randint(0, len(L)-1)]
-	S, M, B = [], [], []
+	S, M, B = [], [], [] # S >> values smaller than pivot / M >> values same as pivot / B >> values larger than pivot
 	for num in range(len(L)):
 		if L[num] < pivot:
 			S.append(L[num])
