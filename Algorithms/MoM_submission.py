@@ -1,24 +1,19 @@
-def find_median_five(L):
-    print(L)
-    mid = len(L) // 2
-    pivot = L[mid]
-    S, M, B = [], [], []  # S >> values smaller than pivot / M >> values same as pivot / B >> values larger than pivot
-    for num in range(len(L)):
-        if L[num] < pivot:
-            S.append(L[num])
-        elif L[num] > pivot:
-            B.append(L[num])
-        else:  # L[num] == pivot:
-            M.append(L[num])
-    # print(S, B, M)
-    # print(len(S), len(B), len(M), mid)
-    if len(S) > mid:
-        return find_median_five(S)
-    elif len(S + M) < mid:
-        return find_median_five(B)
+def find_median_five(L, k = None):
+    if k is None:
+        k = len(L)//2
+    pivot = L[len(L)//2]
+    S, M, B = [], [], []
+    for i in range(len(L)):
+        if L[i] < pivot: S.append(L[i])
+        elif L[i] > pivot: B.append(L[i])
+        else: M.append(L[i])
+    if k < len(S):
+        return find_median_five(S,k)
+    elif k >= len(S) + len(M):
+        return find_median_five(B, k-len(S)-len(M))
     else:
-        print(M)
-        return M[0]
+        return pivot
+
 def MoM(L, k):  # L의 값 중에서 k번째로 작은 수 리턴
     if len(L) == 1:  # no more recursion
         return L[0]
