@@ -2,7 +2,7 @@ import time
 import random
 
 
-def heapSort(A):
+def heap_sort(A):
 
     def heapify(i, limit = len(A)):  # function for heapify down, A[0] will always be the maximum value
         while (2 * i) + 1 < limit:

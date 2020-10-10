@@ -26,13 +26,15 @@ def mergeSortedLists(A, first, last):
 
 
 
-def mergeSort(A, first, last):
+def merge_sort(A, first, last):
     if first >= last: return
     mid = (first+last)//2
-    mergeSort(A, first, mid)
-    mergeSort(A, mid + 1, last)
+    merge_sort(A, first, mid)
+    merge_sort(A, mid + 1, last)
     mergeSortedLists(A, first, last)
     return A
 
-A = [random.randint(-10, 10) for i in range(10000)]
+A = [random.randint(-10000, 10000) for i in range(10000)]
 X = mergeSort(A, 0, len(A) - 1)
+
+print(X == sorted(A))
