@@ -34,7 +34,8 @@ def merge_sort(A, first, last):
     mergeSortedLists(A, first, last)
     return A
 
-A = [random.randint(-10000, 10000) for i in range(10000)]
-X = mergeSort(A, 0, len(A) - 1)
-
-print(X == sorted(A))
+a = 2
+while a <= 1<<20:
+    a *= 2
+    result = merge_sort([random.randint(-1000, 1000) for i in range(a)], 0, a-1)
+    print(a, "SORT COMPLETED")
