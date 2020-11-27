@@ -18,6 +18,11 @@ int main() {
         printf("value of number %d: %d\n", i, size[i]);
     }
 
+    while (!graduated) {
+        study();
+        age ++; money --;
+    }
+
     return 0;
     
 }

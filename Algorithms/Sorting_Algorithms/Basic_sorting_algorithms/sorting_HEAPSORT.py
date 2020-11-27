@@ -45,11 +45,11 @@ def heap_sort(A):
         while (2 * i) + 1 < limit:
             Hc += 2
             L, R = (2 * i) + 1, (2 * i) + 2
-            if L < limit and A[L] > A[i]:
+            if L < limit and A[L] < A[i]:
                 m = L
             else:
                 m = i
-            if R < limit and A[R] > A[m]:
+            if R < limit and A[R] < A[m]:
                 m = R
             if m != i:
                 Hs += 1
@@ -70,8 +70,4 @@ def heap_sort(A):
     return A
 
 
-a = 2
-while a <= 1<<20:
-    a *= 2
-    result = heap_sort([random.randint(-100, 100) for i in range(a)])
-    print(a, "SORT COMPLETED")
+print(heap_sort([3,1,2]))
