@@ -25,16 +25,16 @@ class Dijkstra:
         if idx != None:
             self.heap[idx][0] = change_to
 
-
     def solution(self):
         while len(self.heap): # 힙에 원소가 있을 때까지 반복
-            heapq.heapify(self.heap)
+            heapq.heapify(self.heap) #while문 한 번당 한 원소만 빠져나가므로, heapify는 한 번만 실행하면 됨
+            print(self.heap)
             min_weight, index = heapq.heappop(self.heap)
             for terminal_node, weight in enumerate(self.edge_matrix[index]):
                 if weight > 0:
                     if self.weight[terminal_node] > weight + min_weight:
-                        self.weight[terminal_node] = weight + min_weight
-                        self.decreaseKey(terminal_node, weight + min_weight)
+                        self.weight[terminal_node] = weight + min_weight # self.weight 조정
+                        self.decreaseKey(terminal_node, weight + min_weight) # heap 조정
         self.printSolution()
 
     def printSolution(self):
@@ -45,3 +45,19 @@ class Dijkstra:
                 print(self.weight[i], end = " ")
 
 Dijkstra()
+
+'''
+[[0, 0], [2305843009213693952, 1], [2305843009213693952, 2], [2305843009213693952, 3], [2305843009213693952, 4], [2305843009213693952, 5], [2305843009213693952, 6], [2305843009213693952, 7], [2305843009213693952, 8], [2305843009213693952, 9]]
+[[1, 3], [3, 4], [8, 2], [2305843009213693952, 7], [5, 1], [2305843009213693952, 5], [2305843009213693952, 6], [2305843009213693952, 9], [2305843009213693952, 8]]
+[[3, 4], [5, 1], [8, 2], [7, 9], [2305843009213693952, 8], [2305843009213693952, 5], [2305843009213693952, 6], [2305843009213693952, 7]]
+[[4, 2], [7, 9], [5, 1], [2305843009213693952, 7], [2305843009213693952, 8], [2305843009213693952, 5], [2305843009213693952, 6]]
+[[5, 1], [7, 9], [2305843009213693952, 5], [2305843009213693952, 7], [2305843009213693952, 8], [2305843009213693952, 6]]
+[[7, 9], [2305843009213693952, 6], [2305843009213693952, 5], [2305843009213693952, 7], [2305843009213693952, 8]]
+[[2305843009213693952, 5], [2305843009213693952, 6], [2305843009213693952, 8], [2305843009213693952, 7]]
+[[2305843009213693952, 6], [2305843009213693952, 7], [2305843009213693952, 8]]
+[[2305843009213693952, 7], [2305843009213693952, 8]]
+[[2305843009213693952, 8]]
+0 5 4 1 3 inf inf inf inf 7 
+Process finished with exit code 0
+
+'''
