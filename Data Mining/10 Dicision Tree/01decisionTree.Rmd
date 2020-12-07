@@ -1,0 +1,141 @@
+---
+title: "Decision Tree"
+output:
+  html_document:
+    fig_caption: yes
+    fig_height: 6
+    fig_retina: 2
+    fig_width: 6
+    theme: readable
+    toc: yes
+    toc_depth: 2
+  word_document: default
+---
+
+**************************
+
+* 필요 패키지 : `rpart` , `partykit`
+* 필요 데이터 :
+
+**************************
+
+
+# 학습목표
+
+> Decision Tree 분석을 R 명령어와 함께 학습하며, 이론적인 내용을 다시 한번 숙지한다.
+
+
+> 데이터 분석을 통해 R의 오브젝트 구조를 이해하고 해석방법 및 활용 방안을 학습한다.
+
+<br><br>
+
+# 1. 기본 사용법 
+
+> 본 장에서는 `rpart` 패키지가 제공하는 기능 및 오브젝트의 구조를 이해함
+
+> 그리고 generic 함수를 이용함 
+
+<br>
+
+```{r, eval=TRUE}
+library(rpart)
+
+kyphosis.tr <- rpart(Kyphosis~., kyphosis)
+kyphosis.tr
+plot(kyphosis.tr)
+text(kyphosis.tr)
+```
+
+
+```{r}
+summary(kyphosis.tr)
+```
+
+```{r}
+attributes(kyphosis.tr)
+```
+
+```{r}
+kyphosis.tr$frame
+kyphosis.tr$cptable
+```
+
+<br><br>
+
+# 2. 예쁜 그림 그리기  
+
+> 분석 결과물을 `partykit` 패키지를 통해 정교하게 그림을 그리는 실습을 수행함
+
+```{r}
+library(partykit)
+
+kyphosis.party <- as.party(kyphosis.tr)
+kyphosis.party
+plot(kyphosis.party)
+```
+
+<br><br>
+
+# 3. Argument 및 활용(utility) 함수
+
+> cross-validation을 이해함 
+
+```{r, eval=TRUE}
+kyphosis.tr.cv <- rpart(Kyphosis ~ ., data=kyphosis, control=rpart.control(xval=10))
+printcp(kyphosis.tr.cv)
+plotcp(kyphosis.tr.cv)
+```
+
+<br>
+
+> Split 기준을 entropy로 변경함 
+
+```{r}
+kyphosis.tr.info <- rpart(Kyphosis ~ ., data=kyphosis, parm=list(split="information"))
+kyphosis.tr.info.party <- as.party(kyphosis.tr.info)
+plot(kyphosis.tr.info.party)
+
+par(mfrow = c(1, 2))
+plot(kyphosis.tr)
+plot(kyphosis.tr.info)
+```
+
+<br><br>
+
+# 4. 최적 Tree Size의 이해 
+
+> cross-validation을 통한 최적 tree size를 이해함 
+
+```{r, eval=TRUE}
+set.seed(1)
+xerror <- t(replicate(500,
+                      rpart(Kyphosis ~ ., data = kyphosis)$cptable[,4]))
+head(xerror)
+```
+
+
+```{r, eval=TRUE}
+tree.size <- factor(
+  rpart(Kyphosis ~ ., data = kyphosis)$cptable[,2] + 1)
+tree.size
+colnames(xerror) <- tree.size
+head(xerror)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+boxplot(xerror, xlab = "size of tree",
+        ylab = "X-val Relative Error")
+plot(tree.size[apply(xerror,1, which.min)], xlab = "size of tree",
+     ylab = "# minimal")
+
+```
+
+********************************
+
+
+© 2015 Advice, All Rights Reserved
+
+No part of this contents may be reproduced, copied, modified or adapted, without the prior written consent of the author, unless otherwise indicated for stand-alone materials. 
+
+![](AdviceLOGO.png)
